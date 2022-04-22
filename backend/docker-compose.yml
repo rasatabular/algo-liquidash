@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=password
+    volumes:
+      - liquidation_data:/data/db
+    # for local dev
+    ports:
+      - 8080:27017
+
+  fetcher:
+    build:
+      context: .
+      dockerfile: ./fetcher/Dockerfile
+    ports:
+      - 8081:80
+    environment:
+      - WALLET_SEED=${WALLET_SEED}
+      - DB_USER=root
+      - DB_PASSWORD=password
+      - LOOP=False
+
+  api:
+    build:
+      context: .
+      dockerfile: ./api/Dockerfile
+    ports:
+      - 8000:80
+    environment:
+      - WALLET_SEED=${WALLET_SEED}
+      - DB_USER=root
+      - DB_PASSWORD=password
+
+volumes:
+  liquidation_data:

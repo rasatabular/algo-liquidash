@@ -18,7 +18,7 @@ function SearchWallet() {
     // a POST request with the provided data
     if (walletAddress) {
 
-      let url = "http://localhost:8000/search/"
+      let url = process.env.REACT_APP_DOMAIN
       fetch(url, {
         method: 'POST',
         body: JSON.stringify({

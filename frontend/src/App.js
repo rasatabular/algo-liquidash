@@ -2,6 +2,7 @@ import NavBar from './components/NavBar';
 import LandingPageInfo from './components/LandingPageInfo';
 import StorageAccountDataList from './components/StorageAccountDataList'
 import SearchWallet from './components/SearchWallet';
+import AuthForm from './components/AuthForm';
 
 function App() {
   return (

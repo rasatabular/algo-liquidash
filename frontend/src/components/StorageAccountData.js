@@ -63,11 +63,12 @@ function StorageAccountData({ account, state }) {
           data-bs-toggle="collapse"
           data-bs-target={`#${account}`}
           aria-expanded="false"
-          aria-controls={`${account}`}
+          aria-controls={account}
+          type="button"
           onClick={handleButtonClick}>{readMoreText}</button>
       </div>
-      <div className="collapse" id={`${account}`}>
-        <div className="card-body">
+      <div className="collapse" id={account}>
+        <div className="card card-body">
           {symbols.map(symbol => (
             <AssetDataBreakdown
               key={account + symbol}

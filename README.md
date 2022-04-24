@@ -4,7 +4,7 @@ Retrieve and present a dashboard based for the ulitization of the amount that is
 
 The utilisation is computed based on the amount of the collateral that each wallet address owner has provided to AlgoFi versus the amount of assests that the wallet has borrowed. Find more information about how [lending and liquidataions work](https://docs.algofi.org/algofi-lending/master/liquidating-users).
 
-[Application Demo](https://goaldata.org)
+[Application Demo](https://www.goaldata.org)
 
 ## System Design
 
@@ -15,23 +15,24 @@ The backend system has three parts and can be found and run under the `backend/`
 
  The frontend part consists of a React application that makes requests to the `api` backend and is responsible for presenting data.
 
-## Running the system
+## Deploying the system
 
-### Backend
-First you need to specify the mnemonic for an Algorand wallet address as an environment variable
+Deploying the system is handled by Docker and `docker-compose`. You need to [install docker](https://docs.docker.com/engine/install/ubuntu/) and also install `docker-compose`. If you want to deploy it on a cloud service provider you need to also specify a [Docker context](https://docs.docker.com/engine/context/working-with-contexts/).
 
-You need to [install docker](https://docs.docker.com/engine/install/ubuntu/) and also install `docker-compose`. Then you need to build the images and run the backend. You can do this with `docker-compose build` and run the backend system by executing `docker-compose up -d` in the `backend` directory.
+After installing Docker you need to:
+1. First you need to specify the mnemonic for an Algorand wallet address as an environment variable `WALLET_SEED`.
+2. Specify an email address to be related with the TLS certificates. Specify this by using the `TLS_EMAIL` environment variable.
+
+Then for **deploying on your local machine**:
+    docker-compose build
+    docker-compose up -d
+
+And for **deploying on the cloud**:
+    DOCKER_CONTEXT=liquidata docker compose -f docker-compose.yml -f docker-compose.prod.yml build
+    DOCKER_CONTEXT=liquidata docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 
 The `fetcher` container has the `LOOP` environment variable that can be used to run the `fetcher` continuously.
 
-Then you need to install Nginx with
+## Limitations and Future Improvement
 
-```
-sudo apt update
-sudo apt install nginx
-```
-
-Based on the VM you are deploying you might need to read [this](https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-ubuntu-18-04)
-
-### Frontend
-You need to `cd` in the `frontend` directory and run `docker build .`
+Fetching data with the `fetcher` uses REST API calls that are slow. Running a dedicated node/indexer to support the application can considerably speed up fetching the results.

@@ -4,6 +4,7 @@ import StorageAccountData from "./StorageAccountData";
 
 import DataContext from "../store/data-context";
 
+
 function StorageAccountDataList() {
 
   const dataCtx = useContext(DataContext);
@@ -12,7 +13,7 @@ function StorageAccountDataList() {
   const dataRefreshRate = 60000;
 
   function fetchData() {
-    let url = "http://localhost:8000/"
+    let url = process.env.REACT_APP_DOMAIN
     fetch(url).then(res => {
       console.log(res);
       if (res.ok) {
@@ -32,9 +33,6 @@ function StorageAccountDataList() {
     }, dataRefreshRate);
     return () => clearInterval(refreshData);
   }, []);
-
-  console.log(dataCtx.data)
-  console.log(dataCtx.storageAddress)
 
   // if there are no data to display, then show a warning message
   const dataToDisplay = dataCtx.data.length > 0;

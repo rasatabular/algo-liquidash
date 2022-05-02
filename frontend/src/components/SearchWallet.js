@@ -28,7 +28,6 @@ function SearchWallet() {
           'Content-Type': 'application/json'
         }
       }).then(res => {
-        console.log(res);
         if (res.ok) {
           return res.json()
         } else {
@@ -58,7 +57,7 @@ function SearchWallet() {
             id="address"
             ref={walletToSearchRef}
           />
-          <button type="submit" class="btn btn-outline-primary">Search Wallet</button>
+          <button type="submit" className="btn btn-outline-primary">Search Wallet</button>
         </div>
       </form >
     </div >

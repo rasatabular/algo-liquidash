@@ -9,9 +9,6 @@ services:
       - MONGO_INITDB_ROOT_PASSWORD=password
     volumes:
       - liquidation_data:/data/db
-    # for local dev
-    ports:
-      - 7700:27017
 
   fetcher:
     build:
@@ -35,6 +32,18 @@ services:
       - WALLET_SEED=${WALLET_SEED}
       - DB_USER=root
       - DB_PASSWORD=password
+
+  notify:
+    build:
+      context: ./backend
+      dockerfile: ./src/notify/Dockerfile
+    ports:
+      - 7703:80
+    environment:
+      - DB_USER=root
+      - DB_PASSWORD=password
+    env_file:
+      - dev.env
 
 volumes:
   liquidation_data:

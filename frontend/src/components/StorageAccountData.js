@@ -1,15 +1,19 @@
 // Show the high-level storage account info
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 import AssetDataBreakdown from "./AssetDataBreakdown";
 
+import AuthContextProvider from "./../store/auth-context";
+
 import { twoDecimalsPercision } from './utils/utils.js';
 
-function StorageAccountData({ account, state }) {
+function StorageAccountData({ account, state, prefix, watchHandler, watchButtonText }) {
 
   let symbols = ['ALGO', 'USDC', 'goBTC', 'goETH', 'STBL', 'vALGO'];
 
   const CRITICAL_HEALTH = 0.8;
+
+  const authCtx = useContext(AuthContextProvider);
 
   // critical health color
   let healthClass = 'row ';
@@ -47,6 +51,12 @@ function StorageAccountData({ account, state }) {
           <div className='col'>{twoDecimalsPercision(state.account_health.percentage_borrowed * 100)}%
             {(state.account_health.percentage_borrowed > CRITICAL_HEALTH)
               && "  - CRITICAL"}</div>
+          <div className="col-2">
+            {authCtx.isLoggedIn && <button
+              onClick={() => watchHandler(account)}
+              className="btn btn-primary"
+            >{watchButtonText}</button>}
+          </div>
         </div>
         <div className="row">
           <div className='col-4'>Account Currently Borrowed:</div>
@@ -61,13 +71,13 @@ function StorageAccountData({ account, state }) {
         <button
           className='btn btn-link p-0 w-100 text-decoration-none'
           data-bs-toggle="collapse"
-          data-bs-target={`#${account}`}
+          data-bs-target={`#${prefix}-${account}`}
           aria-expanded="false"
-          aria-controls={account}
+          aria-controls={`${prefix}-${account}`}
           type="button"
           onClick={handleButtonClick}>{readMoreText}</button>
       </div>
-      <div className="collapse" id={account}>
+      <div className="collapse" id={`${prefix}-${account}`}>
         <div className="card card-body">
           {symbols.map(symbol => (
             <AssetDataBreakdown

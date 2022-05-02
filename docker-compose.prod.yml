@@ -1,6 +1,14 @@
 version: '3.8'
 
 services:
+
+  notify:
+    environment:
+      DB_USER: ${DB_USER:-root}
+      DB_PASSWORD: ${DB_PASSWORD:-password}
+    env_file:
+      - production.env
+
   api:
     environment:
       ALLOWED_HOSTS: https://www.goaldata.org
@@ -23,7 +31,7 @@ services:
     build:
       context: ./frontend
       args:
-        REACT_APP_DOMAIN: https://api.goaldata.org/
+        REACT_APP_DOMAIN: https://api.goaldata.org
     ports:
       - 3000:80
     labels:

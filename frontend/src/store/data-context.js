@@ -4,14 +4,17 @@ import { createContext, useState } from "react";
 
 const DataContext = createContext({
   data: [],
+  watchedData: [],
   storageAddress: "",
   setData: (newData) => { },
+  setWatchedData: (data) => { },
   setStorageAddress: (newStorageAddress) => { },
 });
 
 export function DataContextProvider(props) {
 
   const [currentData, setCurrentData] = useState([]);
+  const [currentWatchedData, setCurrentWatchedData] = useState([]);
   const [currentStorageAddress, setCurrentStorageAddress] = useState("");
 
   function setData(newData) {
@@ -22,10 +25,16 @@ export function DataContextProvider(props) {
     setCurrentStorageAddress(newStorageAddress);
   }
 
+  function setWatchedData(data) {
+    setCurrentWatchedData(data);
+  }
+
   const context = {
     data: currentData,
+    watchedData: currentWatchedData,
     storageAddress: currentStorageAddress,
     setData: setData,
+    setWatchedData: setWatchedData,
     setStorageAddress: setStorageAddress,
   }
 
